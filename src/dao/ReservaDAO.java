@@ -6,7 +6,7 @@ import java.sql.*;
 public class ReservaDAO {
 
     public int crearReserva(Reserva reserva, int idHabitacion, Date entrada, Date salida, int huespedes, double precio) {
-        // 1. SQL ajustado a tus nombres de columna
+        
         String sqlReserva = "INSERT INTO reserva (id_cliente, fecha_reserva, estado_reserva, estado_pago) VALUES (?, ?, ?, ?)";
         String sqlDetalle = "INSERT INTO reserva_habitacion (id_reserva, id_habitacion, fecha_entrada, fecha_salida, num_huespedes, precio_total) VALUES (?, ?, ?, ?, ?, ?)";
 
