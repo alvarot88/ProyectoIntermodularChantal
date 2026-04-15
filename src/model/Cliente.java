@@ -15,7 +15,7 @@ public class Cliente {
     private String paisResidencia;
     private String nacionalidad;
 
-    // Constructor para insertar (sin ID)
+    
     public Cliente(String nombre, String apellidos, String tipoDocumento, String numDocumento,
                    String email, String telefono, String genero, Date fechaNacimiento,
                    String paisResidencia, String nacionalidad) {
@@ -31,7 +31,7 @@ public class Cliente {
         this.nacionalidad = nacionalidad;
     }
 
-    // Getters
+   
     public String getNombre() { return nombre; }
     public String getApellidos() { return apellidos; }
     public String getTipoDocumento() { return tipoDocumento; }

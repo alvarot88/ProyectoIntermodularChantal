@@ -5,9 +5,9 @@ public class Hotel {
     private String nombre;
     private String direccion;
     private String ciudad;
-    private String categoria; // Ej: "Gran Lujo", "Business", "Low Cost"
-    private String cif;       // Identificador fiscal para facturación corporativa
-    private String gerente;   // Responsable del centro
+    private String categoria; 
+    private String cif;
+    private String gerente;
 
     public Hotel(int idHotel, String nombre, String direccion, String ciudad, String categoria, String cif, String gerente) {
         this.idHotel = idHotel;

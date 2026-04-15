@@ -9,9 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HabitacionDAO { // <-- La llave de la CLASE abre aquí
+public class HabitacionDAO { 
 
-    public List<Habitacion> listarDisponibles() { // <-- La llave del MÉTODO abre aquí
+    public List<Habitacion> listarDisponibles() {
         List<Habitacion> lista = new ArrayList<>();
         String sql = "SELECT * FROM habitacion WHERE estado = 'disponible'";
 
@@ -33,6 +33,6 @@ public class HabitacionDAO { // <-- La llave de la CLASE abre aquí
             System.out.println("❌ Error: " + e.getMessage());
         }
         return lista;
-    } // <-- Aquí cierra el método
+    }
 
-} // <-- Aquí cierra la clase (MUY IMPORTANTE)
+}
