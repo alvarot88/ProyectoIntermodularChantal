@@ -22,7 +22,7 @@ public class HotelDAO {
                         rs.getString("direccion"),
                         rs.getString("ciudad"),
                         rs.getString("pais"),
-                        rs.getInt("estrellas"),
+                        rs.getString("estrellas"),
                         rs.getString("telefono")
                 ));
             }
