@@ -42,4 +42,7 @@ public class Cliente {
     public Date getFechaNacimiento() { return fechaNacimiento; }
     public String getPaisResidencia() { return paisResidencia; }
     public String getNacionalidad() { return nacionalidad; }
+
+    @Override
+    public String toString() { return apellidos + ", " + nombre; }
 }

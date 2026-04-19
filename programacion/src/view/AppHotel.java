@@ -37,10 +37,12 @@ public class AppHotel extends Application {
         VBox layoutHabitaciones = crearPanelHabitaciones();
         tabHabitaciones.setContent(layoutHabitaciones);
 
-        // --- PESTAÑA 3: RESERVAS (Esqueleto para el futuro) ---
+        // --- PESTAÑA 3: RESERVAS  ---
         Tab tabReservas = new Tab("Nueva Reserva");
         tabReservas.setClosable(false);
-        tabReservas.setContent(new Label("\n   Panel de Reservas - Próximamente disponible"));
+
+        PanelReservas panelReservas = new PanelReservas();
+        tabReservas.setContent(new PanelReservas());
 
         // 2. Añadimos todas las pestañas al TabPane
         tabPane.getTabs().addAll(tabClientes, tabHabitaciones, tabReservas);

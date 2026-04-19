@@ -5,18 +5,33 @@ public class Hotel {
     private String nombre;
     private String direccion;
     private String ciudad;
-    private String categoria; 
-    private String cif;
-    private String gerente;
+    private String pais;
+    private String categoria;
 
-    public Hotel(int idHotel, String nombre, String direccion, String ciudad, String categoria, String cif, String gerente) {
+    public Hotel(int idHotel, String nombre, String direccion, String ciudad, String pais, String categoria) {
         this.idHotel = idHotel;
         this.nombre = nombre;
         this.direccion = direccion;
         this.ciudad = ciudad;
+        this.pais = pais;
         this.categoria = categoria;
-        this.cif = cif;
-        this.gerente = gerente;
     }
 
+    // --- GETTERS (Esto es lo que te pide PanelReservas) ---
+
+    public int getIdHotel() {
+        return idHotel;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    // --- El método mágico para el ComboBox ---
+    @Override
+    public String toString() {
+        return nombre + " (" + ciudad + ")";
+    }
+
+    // Si necesitas más getters para la dirección o ciudad, puedes añadirlos igual que el de nombre
 }

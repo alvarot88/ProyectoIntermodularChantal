@@ -22,8 +22,7 @@ public class HotelDAO {
                         rs.getString("direccion"),
                         rs.getString("ciudad"),
                         rs.getString("pais"),
-                        rs.getString("estrellas"),
-                        rs.getString("telefono")
+                        rs.getString("categoria")
                 ));
             }
         } catch (SQLException e) {
