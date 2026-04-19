@@ -18,7 +18,8 @@ public class Habitacion {
         this.estado = estado;
     }
 
-    
+    public int getIdHabitacion() { return idHabitacion; }
+    public int getIdHotel() { return idHotel; }
     public int getNumHabitacion() { return numHabitacion; }
     public String getTipoHabitacion() { return tipoHabitacion; }
     public double getPrecioNoche() { return precioNoche; }
@@ -28,4 +29,7 @@ public class Habitacion {
     public String toString() {
         return "Habitacion " + numHabitacion + " [" + tipoHabitacion + "] - " + precioNoche + "€/noche (" + estado + ")";
     }
+    public void setIdHabitacion(int idHabitacion) { this.idHabitacion = idHabitacion; }
+
+
 }
