@@ -45,6 +45,8 @@ public class AppHotel extends Application {
         tabReservas.setContent(new PanelReservas());
 
         // 2. Añadimos todas las pestañas al TabPane
+        Tab tabGestion = new Tab("Gestión Clientes", new PanelGestionClientes());
+        tabPane.getTabs().add(tabGestion);
         tabPane.getTabs().addAll(tabClientes, tabHabitaciones, tabReservas);
 
         // 3. Configuración de la Escena
