@@ -54,6 +54,12 @@ public class AppHotel extends Application {
         primaryStage.setTitle("Sistema de Gestión Hotelera PROMETEO - Chantal v1.1");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        PanelHistorial panelHistorial = new PanelHistorial();
+
+        Tab tabHistorial = new Tab("Historial y Finanzas", panelHistorial);
+
+        tabPane.getTabs().add(tabHistorial);
     }
 
     // Método para mantener el código limpio: Crea la tabla y la rellena

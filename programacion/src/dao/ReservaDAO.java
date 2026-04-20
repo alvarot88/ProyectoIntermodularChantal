@@ -1,12 +1,15 @@
 package dao;
 
 import model.Reserva;
+import model.ReservaDetalle;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReservaDAO {
 
+    // 1. MÉTODO PARA CREAR LA RESERVA (Ya funcionaba joya)
     public int crearReserva(Reserva reserva, int idHabitacion, Date entrada, Date salida, int huespedes, double precio) {
-        
         String sqlReserva = "INSERT INTO reserva (id_cliente, fecha_reserva, estado_reserva, estado_pago) VALUES (?, ?, ?, ?)";
         String sqlDetalle = "INSERT INTO reserva_habitacion (id_reserva, id_habitacion, fecha_entrada, fecha_salida, num_huespedes, precio_total) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -46,6 +49,42 @@ public class ReservaDAO {
             if (con != null) try { con.rollback(); } catch (SQLException ex) { }
             System.out.println("❌ Error: " + e.getMessage());
             return -1;
+        } finally {
+            if (con != null) try { con.close(); } catch (SQLException e) { }
         }
+    } // <--- AQUÍ TERMINA crearReserva
+
+    // 2. MÉTODO PARA EL HISTORIAL (El nuevo)
+    public List<ReservaDetalle> obtenerHistorialCompleto() {
+        List<ReservaDetalle> lista = new ArrayList<>();
+
+        String sql = "SELECT r.id_reserva, CONCAT(c.nombre, ' ', c.apellidos) AS cliente, " +
+                "h.nombre, rh.fecha_entrada, rh.fecha_salida, rh.precio_total, r.estado_reserva " +
+                "FROM reserva r " +
+                "JOIN cliente c ON r.id_cliente = c.id_cliente " +
+                "JOIN reserva_habitacion rh ON r.id_reserva = rh.id_reserva " +
+                "JOIN habitacion hab ON rh.id_habitacion = hab.id_habitacion " +
+                "JOIN hotel h ON hab.id_hotel = h.id_hotel " +
+                "ORDER BY rh.fecha_entrada DESC";
+
+        try (Connection con = ConexionDB.conectar();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+
+            while (rs.next()) {
+                lista.add(new ReservaDetalle(
+                        rs.getInt("id_reserva"),
+                        rs.getString("cliente"),
+                        rs.getString("nombre"),
+                        rs.getDate("fecha_entrada"),
+                        rs.getDate("fecha_salida"),
+                        rs.getDouble("precio_total"),
+                        rs.getString("estado_reserva")
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Error al obtener historial: " + e.getMessage());
+        }
+        return lista;
     }
 }
