@@ -15,7 +15,24 @@ public class Cliente {
     private String paisResidencia;
     private String nacionalidad;
 
-    
+    // Constructor completo (usado cuando cargamos datos de la BBDD)
+    public Cliente(int idCliente, String nombre, String apellidos, String tipoDocumento, String numDocumento,
+                   String email, String telefono, String genero, Date fechaNacimiento,
+                   String paisResidencia, String nacionalidad) {
+        this.idCliente = idCliente;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.tipoDocumento = tipoDocumento;
+        this.numDocumento = numDocumento;
+        this.email = email;
+        this.telefono = telefono;
+        this.genero = genero;
+        this.fechaNacimiento = fechaNacimiento;
+        this.paisResidencia = paisResidencia;
+        this.nacionalidad = nacionalidad;
+    }
+
+    // SEGUNDO CONSTRUCTOR: Para crear clientes nuevos (sin ID)
     public Cliente(String nombre, String apellidos, String tipoDocumento, String numDocumento,
                    String email, String telefono, String genero, Date fechaNacimiento,
                    String paisResidencia, String nacionalidad) {
@@ -31,7 +48,11 @@ public class Cliente {
         this.nacionalidad = nacionalidad;
     }
 
-   
+    // --- GETTERS ---
+    public int getIdCliente() {
+        return idCliente; // <--- CORREGIDO: Ahora sí devuelve el ID
+    }
+
     public String getNombre() { return nombre; }
     public String getApellidos() { return apellidos; }
     public String getTipoDocumento() { return tipoDocumento; }
@@ -44,5 +65,7 @@ public class Cliente {
     public String getNacionalidad() { return nacionalidad; }
 
     @Override
-    public String toString() { return apellidos + ", " + nombre; }
+    public String toString() {
+        return apellidos + ", " + nombre;
+    }
 }

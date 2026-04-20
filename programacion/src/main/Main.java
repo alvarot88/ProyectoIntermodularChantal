@@ -52,14 +52,27 @@ public class Main {
             }
         }
 
-        Reserva miReserva = new Reserva(1, Date.valueOf("2024-05-20"), "Confirmada", "Pendiente");
+        // 1. Necesitamos una fecha para el objeto Reserva
+        java.sql.Date fechaHoy = new java.sql.Date(System.currentTimeMillis());
 
-        int id = reservaDAO.crearReserva(miReserva, 1,
-                Date.valueOf("2024-06-01"), Date.valueOf("2024-06-05"),
-                2, 500.00);
+        // 2. Creamos el objeto Reserva (usando 'r' como nombre)
+        // Datos: idCliente=1, idHabitacion=1, fecha, estado, pago
+        Reserva r = new Reserva(1, 1, fechaHoy, "Confirmada", "Pendiente");
+
+        // 3. Llamamos al DAO usando 'r' (no miReserva)
+        int id = reservaDAO.crearReserva(
+                r,
+                1, // idHabitacion
+                Date.valueOf("2024-06-01"),
+                Date.valueOf("2024-06-05"),
+                2,
+                500.00
+        );
 
         if (id != -1) {
             System.out.println("Reserva guardada con ID: " + id);
+        } else {
+            System.out.println("No se pudo crear la reserva de prueba.");
         }
 
     }

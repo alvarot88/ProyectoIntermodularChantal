@@ -18,6 +18,7 @@ public class ClienteDAO {
             while (rs.next()) {
                 // Extraemos todos los campos nuevos de la base de datos
                 Cliente c = new Cliente(
+                        rs.getInt("id_cliente"),
                         rs.getString("nombre"),
                         rs.getString("apellidos"),
                         rs.getString("tipo_documento"),
