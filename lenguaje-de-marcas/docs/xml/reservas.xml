@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<exportacion_reservas sistema="GESTION_HOTELES" version="1.0">
+  <metadatos>
+    <fecha_exportacion>2026-04-26</fecha_exportacion>
+    <total_reservas>5</total_reservas>
+  </metadatos>
+  <reservas>
+    <reserva id="1">
+      <cliente>Sophie Leroy Bernard</cliente>
+      <hotel>Hotel Paris Lumiere</hotel>
+      <fechas>
+        <entrada>2026-05-04</entrada>
+        <salida>2026-05-10</salida>
+      </fechas>
+      <precio moneda="EUR">
+        <total>960.0</total>
+      </precio>
+    </reserva>
+    <reserva id="2">
+      <cliente>Paz Bonaventura</cliente>
+      <hotel>Hotel Barcelona Mar</hotel>
+      <fechas>
+        <entrada>2026-04-27</entrada>
+        <salida>2026-04-30</salida>
+      </fechas>
+      <precio moneda="EUR">
+        <total>270.0</total>
+      </precio>
+    </reserva>
+    <reserva id="3">
+      <cliente>Rio Bonaventura</cliente>
+      <hotel>Hotel Lisboa Centro</hotel>
+      <fechas>
+        <entrada>2027-04-05</entrada>
+        <salida>2027-04-12</salida>
+      </fechas>
+      <precio moneda="EUR">
+        <total>980.0</total>
+      </precio>
+    </reserva>
+    <reserva id="4">
+      <cliente>Mariano Bonaventura</cliente>
+      <hotel>Hotel Gran Madrid</hotel>
+      <fechas>
+        <entrada>2026-04-20</entrada>
+        <salida>2026-04-24</salida>
+      </fechas>
+      <precio moneda="EUR">
+        <total>320.0</total>
+      </precio>
+    </reserva>
+    <reserva id="5">
+      <cliente>Chantal Daniela Alvarez </cliente>
+      <hotel>Hotel Gran Madrid</hotel>
+      <fechas>
+        <entrada>2026-04-27</entrada>
+        <salida>2026-04-30</salida>
+      </fechas>
+      <precio moneda="EUR">
+        <total>240.0</total>
+      </precio>
+    </reserva>
+  </reservas>
+</exportacion_reservas>
