@@ -8,18 +8,16 @@ import java.util.List;
 
 public class HabitacionDAO {
 
-    // ================= FILTRO BÁSICO =================
-    public List<Habitacion> buscarHabitacionesConfigurables(int idHotel, String tipo) {
+    // GET HABITACIONES POR HOTEL Y TIPO (SIN FECHAS)
+    public List<Habitacion> buscarPorHotelYTipo(int idHotel, String tipo) {
 
         List<Habitacion> lista = new ArrayList<>();
 
-        String sql = """
-            SELECT * 
-            FROM habitacion 
-            WHERE id_hotel = ? 
-              AND tipo_habitacion = ? 
-              AND estado = 'activo'
-        """;
+        String sql =
+                "SELECT * FROM habitacion " +
+                        "WHERE id_hotel = ? " +
+                        "AND tipo_habitacion = ? " +
+                        "AND estado = 'activo'";
 
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -47,27 +45,23 @@ public class HabitacionDAO {
         return lista;
     }
 
-    // ================= DISPONIBILIDAD REAL (CON FECHAS) =================
-    public List<Habitacion> buscarHabitacionesDisponibles(int idHotel, String tipo, Date entrada, Date salida) {
+    // CHECK DISPONIBILIDAD REAL (CON FECHAS)  ✅ ESTE ES EL IMPORTANTE
+    public List<Habitacion> buscarDisponibles(int idHotel, String tipo, Date entrada, Date salida) {
 
         List<Habitacion> lista = new ArrayList<>();
 
-        String sql = """
-            SELECT h.*
-            FROM habitacion h
-            WHERE h.id_hotel = ?
-              AND h.tipo_habitacion = ?
-              AND h.estado = 'activo'
-              AND h.id_habitacion NOT IN (
-                  SELECT rh.id_habitacion
-                  FROM reserva_habitacion rh
-                  JOIN reserva r ON r.id_reserva = rh.id_reserva
-                  WHERE NOT (
-                      rh.fecha_salida <= ? 
-                      OR rh.fecha_entrada >= ?
-                  )
-              )
-        """;
+        String sql =
+                "SELECT h.* " +
+                        "FROM habitacion h " +
+                        "WHERE h.id_hotel = ? " +
+                        "AND h.tipo_habitacion = ? " +
+                        "AND h.estado = 'activo' " +
+                        "AND h.id_habitacion NOT IN ( " +
+                        "   SELECT rh.id_habitacion " +
+                        "   FROM reserva_habitacion rh " +
+                        "   JOIN reserva r ON r.id_reserva = rh.id_reserva " +
+                        "   WHERE NOT (rh.fecha_salida <= ? OR rh.fecha_entrada >= ?) " +
+                        ")";
 
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -91,14 +85,14 @@ public class HabitacionDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("❌ Error buscando disponibilidad: " + e.getMessage());
+            System.out.println("❌ Error comprobando disponibilidad: " + e.getMessage());
         }
 
         return lista;
     }
 
-    // ================= LISTAR DISPONIBLES =================
-    public List<Habitacion> listarDisponibles() {
+    // LISTAR TODAS ACTIVAS
+    public List<Habitacion> listarTodas() {
 
         List<Habitacion> lista = new ArrayList<>();
 

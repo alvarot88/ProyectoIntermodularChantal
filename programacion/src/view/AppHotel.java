@@ -8,26 +8,22 @@ import javafx.stage.Stage;
 
 public class AppHotel extends Application {
 
+    private static final String APP_TITLE = "Sistema de Gestión Hotelera PROMETEO - Chantal v1.1";
+
     @Override
     public void start(Stage primaryStage) {
 
         TabPane tabPane = new TabPane();
 
-        // PESTAÑAS
-        Tab tabClientes = crearTab("Gestión de Clientes", new PanelClientes());
-        Tab tabReservas = crearTab("Gestión de Reservas", new PanelReservas());
-        Tab tabHistorial = crearTab("Historial y Finanzas", new PanelHistorial());
         tabPane.getTabs().addAll(
-                tabClientes,
-                tabReservas,
-                tabHistorial
+                crearTab("Gestión de Clientes", new PanelClientes()),
+                crearTab("Gestión de Reservas", new PanelReservas()),
+                crearTab("Historial y Finanzas", new PanelHistorial())
         );
 
-
-        // ESCENA PRINCIPAL
         Scene scene = new Scene(tabPane, 900, 750);
 
-        primaryStage.setTitle("Sistema de Gestión Hotelera PROMETEO - Chantal v1.1");
+        primaryStage.setTitle(APP_TITLE);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

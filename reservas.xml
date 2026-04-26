@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reservas>
+  <reserva>
+    <cliente>Sophie Leroy Bernard</cliente>
+    <hotel>Hotel Paris Lumiere</hotel>
+    <entrada>2026-05-04</entrada>
+    <salida>2026-05-10</salida>
+    <total>960.0</total>
+  </reserva>
+  <reserva>
+    <cliente>Paz Bonaventura</cliente>
+    <hotel>Hotel Barcelona Mar</hotel>
+    <entrada>2026-04-27</entrada>
+    <salida>2026-04-30</salida>
+    <total>270.0</total>
+  </reserva>
+  <reserva>
+    <cliente>Rio Bonaventura</cliente>
+    <hotel>Hotel Lisboa Centro</hotel>
+    <entrada>2027-04-05</entrada>
+    <salida>2027-04-12</salida>
+    <total>980.0</total>
+  </reserva>
+  <reserva>
+    <cliente>Mariano Bonaventura</cliente>
+    <hotel>Hotel Gran Madrid</hotel>
+    <entrada>2026-04-20</entrada>
+    <salida>2026-04-24</salida>
+    <total>320.0</total>
+  </reserva>
+  <reserva>
+    <cliente>Chantal Daniela Alvarez </cliente>
+    <hotel>Hotel Gran Madrid</hotel>
+    <entrada>2026-04-27</entrada>
+    <salida>2026-04-30</salida>
+    <total>240.0</total>
+  </reserva>
+</reservas>

@@ -25,31 +25,88 @@ public class PanelClientes extends VBox {
     private ToggleGroup grupoGenero;
 
     private Cliente clienteSeleccionado;
-    private ClienteDAO dao = new ClienteDAO();
+    private final ClienteDAO dao = new ClienteDAO();
+
+    // CACHE LOCAL (IMPORTANTE)
+    private List<Cliente> clientesCache;
 
     public PanelClientes() {
-        this.setPadding(new Insets(20));
-        this.setSpacing(10);
+
+        setPadding(new Insets(20));
+        setSpacing(10);
 
         Label titulo = new Label("GESTIÓN DE CLIENTES");
         titulo.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
-        // 🔍 BUSCADOR
+        // BUSCADOR
         txtBuscar = new TextField();
-        txtBuscar.setPromptText("Buscar por nombre, apellido, DNI o email...");
-        txtBuscar.textProperty().addListener((obs, oldVal, newVal) -> filtrar(newVal));
+        txtBuscar.setPromptText("Buscar cliente...");
+        txtBuscar.textProperty().addListener((obs, o, n) -> filtrar(n));
 
-        // 📋 TABLA
+        // TABLA
         tabla = new TableView<>();
         tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         configurarTabla();
-        actualizarTabla();
 
         tabla.getSelectionModel().selectedItemProperty().addListener((obs, o, n) -> {
             if (n != null) cargarDatos(n);
         });
 
-        // 🧾 FORMULARIO
+        // FORMULARIO
+        GridPane form = crearFormulario();
+
+        // BOTONES
+        Button btnNuevo = new Button("Nuevo");
+        Button btnGuardar = new Button("Guardar");
+        Button btnEliminar = new Button("Eliminar");
+
+        btnNuevo.setOnAction(e -> limpiarFormulario());
+        btnGuardar.setOnAction(e -> guardar());
+        btnEliminar.setOnAction(e -> eliminar());
+
+        HBox botones = new HBox(10, btnNuevo, btnGuardar, btnEliminar);
+
+        getChildren().addAll(
+                titulo,
+                txtBuscar,
+                tabla,
+                new Separator(),
+                form,
+                botones
+        );
+
+        cargarClientes();
+    }
+
+    // ================= DATOS =================
+
+    private void cargarClientes() {
+        clientesCache = dao.obtenerTodos();
+        tabla.setItems(FXCollections.observableArrayList(clientesCache));
+    }
+
+    private void filtrar(String texto) {
+
+        if (clientesCache == null) return;
+
+        String t = texto.toLowerCase();
+
+        List<Cliente> filtrados = clientesCache.stream()
+                .filter(c ->
+                        c.getNombre().toLowerCase().contains(t) ||
+                                c.getApellidos().toLowerCase().contains(t) ||
+                                c.getNumDocumento().toLowerCase().contains(t) ||
+                                (c.getEmail() != null && c.getEmail().toLowerCase().contains(t))
+                )
+                .collect(Collectors.toList());
+
+        tabla.setItems(FXCollections.observableArrayList(filtrados));
+    }
+
+    // ================= FORM =================
+
+    private GridPane crearFormulario() {
+
         GridPane form = new GridPane();
         form.setHgap(10);
         form.setVgap(10);
@@ -80,7 +137,6 @@ public class PanelClientes extends VBox {
 
         cbPais.setOnAction(e -> cbNacionalidad.setValue(cbPais.getValue()));
 
-        // 📌 FORM LAYOUT
         form.add(new Label("Nombre:"), 0, 0); form.add(txtNombre, 1, 0);
         form.add(new Label("Apellidos:"), 0, 1); form.add(txtApellidos, 1, 1);
         form.add(new Label("Tipo Doc:"), 0, 2); form.add(cbTipoDoc, 1, 2);
@@ -89,28 +145,10 @@ public class PanelClientes extends VBox {
         form.add(new Label("Email:"), 0, 5); form.add(txtEmail, 1, 5);
         form.add(new Label("Teléfono:"), 0, 6); form.add(txtTelefono, 1, 6);
         form.add(new Label("Nacimiento:"), 0, 7); form.add(dpFechaNacimiento, 1, 7);
-        form.add(new Label("País residencia:"), 0, 8); form.add(cbPais, 1, 8);
+        form.add(new Label("País:"), 0, 8); form.add(cbPais, 1, 8);
         form.add(new Label("Nacionalidad:"), 0, 9); form.add(cbNacionalidad, 1, 9);
 
-        // 🔘 BOTONES
-        Button btnNuevo = new Button("Nuevo");
-        Button btnGuardar = new Button("Guardar");
-        Button btnEliminar = new Button("Eliminar");
-
-        btnNuevo.setOnAction(e -> limpiarFormulario());
-        btnGuardar.setOnAction(e -> guardar());
-        btnEliminar.setOnAction(e -> eliminar());
-
-        HBox botones = new HBox(10, btnNuevo, btnGuardar, btnEliminar);
-
-        this.getChildren().addAll(
-                titulo,
-                txtBuscar,
-                tabla,
-                new Separator(),
-                form,
-                botones
-        );
+        return form;
     }
 
     // ================= TABLA =================
@@ -129,74 +167,18 @@ public class PanelClientes extends VBox {
         tabla.getColumns().add(col("Nacionalidad", "nacionalidad"));
     }
 
-    private TableColumn<Cliente, ?> col(String title, String property) {
+    private TableColumn<Cliente, Object> col(String title, String property) {
         TableColumn<Cliente, Object> c = new TableColumn<>(title);
         c.setCellValueFactory(new PropertyValueFactory<>(property));
         return c;
     }
 
-    private void actualizarTabla() {
-        tabla.setItems(FXCollections.observableArrayList(dao.obtenerTodos()));
-    }
-
-    // ================= BUSCADOR =================
-
-    private void filtrar(String texto) {
-        List<Cliente> lista = dao.obtenerTodos();
-
-        List<Cliente> filtrados = lista.stream()
-                .filter(c ->
-                        c.getNombre().toLowerCase().contains(texto.toLowerCase()) ||
-                                c.getApellidos().toLowerCase().contains(texto.toLowerCase()) ||
-                                c.getNumDocumento().toLowerCase().contains(texto.toLowerCase()) ||
-                                (c.getEmail() != null && c.getEmail().toLowerCase().contains(texto.toLowerCase()))
-                )
-                .collect(Collectors.toList());
-
-        tabla.setItems(FXCollections.observableArrayList(filtrados));
-    }
-
-    // ================= FORM =================
-
-    private void cargarDatos(Cliente c) {
-        clienteSeleccionado = c;
-
-        txtNombre.setText(c.getNombre());
-        txtApellidos.setText(c.getApellidos());
-        txtDoc.setText(c.getNumDocumento());
-        txtEmail.setText(c.getEmail());
-        txtTelefono.setText(c.getTelefono());
-        dpFechaNacimiento.setValue(c.getFechaNacimiento().toLocalDate());
-
-        cbTipoDoc.setValue(c.getTipoDocumento());
-
-        if ("M".equals(c.getGenero())) rbM.setSelected(true);
-        else rbF.setSelected(true);
-
-        cbPais.setValue(c.getPaisResidencia());
-        cbNacionalidad.setValue(c.getNacionalidad());
-    }
-
-    private void limpiarFormulario() {
-        clienteSeleccionado = null;
-
-        txtNombre.clear();
-        txtApellidos.clear();
-        txtDoc.clear();
-        txtEmail.clear();
-        txtTelefono.clear();
-        dpFechaNacimiento.setValue(null);
-
-        cbTipoDoc.setValue("DNI");
-        rbM.setSelected(true);
-        cbPais.setValue(null);
-        cbNacionalidad.setValue(null);
-    }
-
     // ================= CRUD =================
 
     private void guardar() {
+
         try {
+
             String genero = rbM.isSelected() ? "M" : "F";
 
             Cliente c = new Cliente(
@@ -208,7 +190,9 @@ public class PanelClientes extends VBox {
                     txtEmail.getText(),
                     txtTelefono.getText(),
                     genero,
-                    Date.valueOf(dpFechaNacimiento.getValue()),
+                    dpFechaNacimiento.getValue() != null
+                            ? Date.valueOf(dpFechaNacimiento.getValue())
+                            : null,
                     cbPais.getValue(),
                     cbNacionalidad.getValue()
             );
@@ -219,27 +203,67 @@ public class PanelClientes extends VBox {
                 dao.actualizarCliente(c);
             }
 
-            actualizarTabla();
             limpiarFormulario();
+            cargarClientes();
 
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Error: " + e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
     private void eliminar() {
+
         if (clienteSeleccionado == null) return;
 
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "¿Eliminar cliente?");
-        confirm.showAndWait().ifPresent(r -> {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "¿Eliminar cliente?");
+        a.showAndWait().ifPresent(r -> {
             if (r == ButtonType.OK) {
-                if (dao.eliminarCliente(clienteSeleccionado.getIdCliente())) {
-                    actualizarTabla();
-                    limpiarFormulario();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "No se puede eliminar (tiene reservas)").show();
-                }
+                dao.eliminarCliente(clienteSeleccionado.getIdCliente());
+                limpiarFormulario();
+                cargarClientes();
             }
         });
+    }
+
+    // ================= FORM HELP =================
+
+    private void cargarDatos(Cliente c) {
+        clienteSeleccionado = c;
+
+        txtNombre.setText(c.getNombre());
+        txtApellidos.setText(c.getApellidos());
+        txtDoc.setText(c.getNumDocumento());
+        txtEmail.setText(c.getEmail());
+        txtTelefono.setText(c.getTelefono());
+
+        if (c.getFechaNacimiento() != null) {
+            dpFechaNacimiento.setValue(c.getFechaNacimiento().toLocalDate());
+        }
+
+        cbTipoDoc.setValue(c.getTipoDocumento());
+
+        if ("M".equals(c.getGenero())) rbM.setSelected(true);
+        else rbF.setSelected(true);
+
+        cbPais.setValue(c.getPaisResidencia());
+        cbNacionalidad.setValue(c.getNacionalidad());
+    }
+
+    private void limpiarFormulario() {
+
+        clienteSeleccionado = null;
+
+        txtNombre.clear();
+        txtApellidos.clear();
+        txtDoc.clear();
+        txtEmail.clear();
+        txtTelefono.clear();
+
+        dpFechaNacimiento.setValue(null);
+
+        cbTipoDoc.setValue("DNI");
+        rbM.setSelected(true);
+        cbPais.setValue(null);
+        cbNacionalidad.setValue(null);
     }
 }
