@@ -9,11 +9,14 @@ import java.util.List;
 
 public class ReservaDAO {
 
-    // ================= CREAR RESERVA =================
+    // CREATE RESERVA
     public int crearReserva(Reserva reserva, int idHabitacion, Date entrada, Date salida, int huespedes, double precio) {
 
-        String sqlReserva = "INSERT INTO reserva (id_cliente, fecha_reserva, estado_reserva, estado_pago) VALUES (?, ?, ?, ?)";
-        String sqlDetalle = "INSERT INTO reserva_habitacion (id_reserva, id_habitacion, fecha_entrada, fecha_salida, num_huespedes, precio_total) VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlReserva =
+                "INSERT INTO reserva (id_cliente, fecha_reserva, estado_reserva, estado_pago) VALUES (?, ?, ?, ?)";
+
+        String sqlDetalle =
+                "INSERT INTO reserva_habitacion (id_reserva, id_habitacion, fecha_entrada, fecha_salida, num_huespedes, precio_total) VALUES (?, ?, ?, ?, ?, ?)";
 
         Connection con = null;
 
@@ -22,6 +25,7 @@ public class ReservaDAO {
             con.setAutoCommit(false);
 
             PreparedStatement psR = con.prepareStatement(sqlReserva, Statement.RETURN_GENERATED_KEYS);
+
             psR.setInt(1, reserva.getIdCliente());
             psR.setDate(2, reserva.getFechaReserva());
             psR.setString(3, reserva.getEstadoReserva());
@@ -36,6 +40,7 @@ public class ReservaDAO {
             }
 
             PreparedStatement psD = con.prepareStatement(sqlDetalle);
+
             psD.setInt(1, idReserva);
             psD.setInt(2, idHabitacion);
             psD.setDate(3, entrada);
@@ -56,7 +61,52 @@ public class ReservaDAO {
         }
     }
 
-    public List<ReservaDetalle> listarReservasPorCliente(int idCliente) {
+    // LISTAR TODAS (USO PRINCIPAL UI)
+    public List<ReservaDetalle> listarReservas() {
+
+        List<ReservaDetalle> lista = new ArrayList<>();
+
+        String sql =
+                "SELECT " +
+                        "r.id_reserva, " +
+                        "CONCAT(c.nombre, ' ', c.apellidos) AS cliente, " +
+                        "h.nombre AS hotel, " +
+                        "rh.fecha_entrada, " +
+                        "rh.fecha_salida, " +
+                        "rh.precio_total, " +
+                        "r.estado_reserva " +
+                        "FROM reserva r " +
+                        "JOIN cliente c ON r.id_cliente = c.id_cliente " +
+                        "JOIN reserva_habitacion rh ON r.id_reserva = rh.id_reserva " +
+                        "JOIN habitacion hab ON rh.id_habitacion = hab.id_habitacion " +
+                        "JOIN hotel h ON hab.id_hotel = h.id_hotel " +
+                        "ORDER BY r.id_reserva DESC";
+
+        try (Connection con = ConexionDB.conectar();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+
+            while (rs.next()) {
+                lista.add(new ReservaDetalle(
+                        rs.getInt("id_reserva"),
+                        rs.getString("cliente"),
+                        rs.getString("hotel"),
+                        rs.getDate("fecha_entrada"),
+                        rs.getDate("fecha_salida"),
+                        rs.getDouble("precio_total"),
+                        rs.getString("estado_reserva")
+                ));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("❌ Error listar reservas: " + e.getMessage());
+        }
+
+        return lista;
+    }
+
+    // FILTRAR POR CLIENTE (USO OPCIONAL UI)
+    public List<ReservaDetalle> listarPorCliente(int idCliente) {
 
         List<ReservaDetalle> lista = new ArrayList<>();
 
@@ -85,7 +135,6 @@ public class ReservaDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-
                 lista.add(new ReservaDetalle(
                         rs.getInt("id_reserva"),
                         rs.getString("cliente"),
@@ -98,59 +147,13 @@ public class ReservaDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("❌ Error listar reservas cliente: " + e.getMessage());
+            System.out.println("❌ Error listar por cliente: " + e.getMessage());
         }
 
         return lista;
     }
 
-    // ================= LISTAR RESERVAS (PARA TABLA UI) =================
-    public List<ReservaDetalle> listarReservas() {
-
-        List<ReservaDetalle> lista = new ArrayList<>();
-
-        String sql = """
-            SELECT 
-                r.id_reserva,
-                CONCAT(c.nombre, ' ', c.apellidos) AS cliente,
-                h.nombre AS hotel,
-                rh.fecha_entrada,
-                rh.fecha_salida,
-                rh.precio_total,
-                r.estado_reserva
-            FROM reserva r
-            JOIN cliente c ON r.id_cliente = c.id_cliente
-            JOIN reserva_habitacion rh ON r.id_reserva = rh.id_reserva
-            JOIN habitacion hab ON rh.id_habitacion = hab.id_habitacion
-            JOIN hotel h ON hab.id_hotel = h.id_hotel
-            ORDER BY r.id_reserva DESC
-        """;
-
-        try (Connection con = ConexionDB.conectar();
-             Statement st = con.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-
-            while (rs.next()) {
-
-                lista.add(new ReservaDetalle(
-                        rs.getInt("id_reserva"),
-                        rs.getString("cliente"),
-                        rs.getString("hotel"),
-                        rs.getDate("fecha_entrada"),
-                        rs.getDate("fecha_salida"),
-                        rs.getDouble("precio_total"),
-                        rs.getString("estado_reserva")
-                ));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("❌ Error listar reservas: " + e.getMessage());
-        }
-
-        return lista;
-    }
-
-    // ================= ELIMINAR RESERVA =================
+    // DELETE
     public boolean eliminarReserva(int idReserva) {
 
         String sqlDetalle = "DELETE FROM reserva_habitacion WHERE id_reserva = ?";
@@ -173,30 +176,6 @@ public class ReservaDAO {
 
         } catch (SQLException e) {
             System.out.println("❌ Error eliminar reserva: " + e.getMessage());
-            return false;
-        }
-    }
-
-    // ================= ACTUALIZAR RESERVA =================
-    public boolean actualizarReserva(Reserva reserva) {
-
-        String sql = """
-            UPDATE reserva
-            SET estado_reserva = ?, estado_pago = ?
-            WHERE id_reserva = ?
-        """;
-
-        try (Connection con = ConexionDB.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, reserva.getEstadoReserva());
-            ps.setString(2, reserva.getEstadoPago());
-            ps.setInt(3, reserva.getIdReserva());
-
-            return ps.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.out.println("❌ Error actualizar reserva: " + e.getMessage());
             return false;
         }
     }

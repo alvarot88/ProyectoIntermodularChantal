@@ -2,7 +2,6 @@ package view;
 
 import dao.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,7 +15,7 @@ import java.util.List;
 
 public class PanelReservas extends VBox {
 
-    // ================= UI =================
+    // UI
     private TextField txtBuscarCliente;
     private ListView<Cliente> listClientes;
 
@@ -32,9 +31,11 @@ public class PanelReservas extends VBox {
     private Button btnCrear;
     private Button btnEliminar;
 
-    // ================= STATE =================
+    // STATE
     private Cliente clienteSeleccionado;
+    private boolean hayDisponibilidad = false;
 
+    // DAO
     private final ReservaDAO reservaDAO = new ReservaDAO();
     private final HabitacionDAO habitacionDAO = new HabitacionDAO();
     private final ClienteDAO clienteDAO = new ClienteDAO();
@@ -45,7 +46,7 @@ public class PanelReservas extends VBox {
         setPadding(new Insets(15));
         setSpacing(10);
 
-        // ================= CLIENTE SEARCH =================
+        // ================= CLIENTE =================
         txtBuscarCliente = new TextField();
         txtBuscarCliente.setPromptText("Buscar cliente...");
 
@@ -115,7 +116,6 @@ public class PanelReservas extends VBox {
         colTotal.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
 
         tabla.getColumns().addAll(colId, colCliente, colHotel, colIn, colOut, colTotal);
-
         tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         // ================= EVENTS =================
@@ -127,17 +127,14 @@ public class PanelReservas extends VBox {
         cargarClientes();
         cargarReservas();
 
-        // ================= LAYOUT =================
         getChildren().addAll(
                 new Label("CLIENTE"),
                 boxClientes,
-
                 new Separator(),
 
                 new Label("NUEVA RESERVA"),
                 form,
                 botones,
-
                 new Separator(),
 
                 new Label("RESERVAS"),
@@ -170,61 +167,60 @@ public class PanelReservas extends VBox {
     // ================= DISPONIBILIDAD =================
     private void comprobarDisponibilidad() {
 
-        if (clienteSeleccionado == null ||
-                cbHotel.getValue() == null ||
+        if (cbHotel.getValue() == null ||
                 cbTipo.getValue() == null ||
                 dpEntrada.getValue() == null ||
                 dpSalida.getValue() == null) {
 
-            alerta("Completa todos los campos");
-            btnCrear.setDisable(true);
+            alerta("Completa los campos de reserva");
             return;
         }
 
-        List<Habitacion> libres = habitacionDAO.buscarHabitacionesDisponibles(
+        List<Habitacion> libres = habitacionDAO.buscarDisponibles(
                 cbHotel.getValue().getIdHotel(),
                 cbTipo.getValue(),
                 Date.valueOf(dpEntrada.getValue()),
                 Date.valueOf(dpSalida.getValue())
         );
 
-        if (libres.isEmpty()) {
-            alerta("No hay disponibilidad");
-            btnCrear.setDisable(true);
-        } else {
-            alerta("Hay disponibilidad");
+        hayDisponibilidad = !libres.isEmpty();
+
+        if (hayDisponibilidad) {
+            alerta("✔ Hay disponibilidad");
             btnCrear.setDisable(false);
+        } else {
+            alerta("❌ No hay disponibilidad");
+            btnCrear.setDisable(true);
         }
     }
 
     // ================= CREAR =================
     private void crearReserva() {
 
-        long noches = ChronoUnit.DAYS.between(dpEntrada.getValue(), dpSalida.getValue());
-
-        if (noches <= 0) {
-            alerta("Fechas inválidas");
+        if (clienteSeleccionado == null) {
+            alerta("Selecciona un cliente");
             return;
         }
 
-        List<Habitacion> libres = habitacionDAO.buscarHabitacionesDisponibles(
+        if (!hayDisponibilidad) {
+            alerta("Primero comprueba disponibilidad");
+            return;
+        }
+
+        long noches = ChronoUnit.DAYS.between(dpEntrada.getValue(), dpSalida.getValue());
+
+        List<Habitacion> libres = habitacionDAO.buscarDisponibles(
                 cbHotel.getValue().getIdHotel(),
                 cbTipo.getValue(),
                 Date.valueOf(dpEntrada.getValue()),
                 Date.valueOf(dpSalida.getValue())
         );
 
-        if (libres.isEmpty()) {
-            alerta("Sin disponibilidad");
-            return;
-        }
-
         Habitacion hab = libres.get(0);
         double precio = noches * hab.getPrecioNoche();
 
         Reserva r = new Reserva(
                 clienteSeleccionado.getIdCliente(),
-                hab.getIdHabitacion(),
                 Date.valueOf(LocalDate.now()),
                 "Confirmada",
                 "Pendiente"
@@ -242,6 +238,8 @@ public class PanelReservas extends VBox {
         if (id != -1) {
             alerta("Reserva creada");
             cargarReservas();
+            btnCrear.setDisable(true);
+            hayDisponibilidad = false;
         }
     }
 
