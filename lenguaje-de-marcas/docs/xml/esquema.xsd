@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="exportacion_reservas">
+        <xs:complexType>
+            <xs:sequence>
+
+                <xs:element name="metadatos">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="fecha_exportacion" type="xs:date"/>
+                            <xs:element name="total_reservas" type="xs:integer"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="reservas">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="reserva" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="cliente" type="xs:string"/>
+                                        <xs:element name="hotel" type="xs:string"/>
+                                        <xs:element name="fechas">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="entrada" type="xs:date"/>
+                                                    <xs:element name="salida" type="xs:date"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element name="precio">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="total" type="xs:decimal"/>
+                                                </xs:sequence>
+                                                <xs:attribute name="moneda" type="xs:string" use="required"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="id" type="xs:integer" use="required"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+            </xs:sequence>
+            <xs:attribute name="sistema" type="xs:string"/>
+            <xs:attribute name="version" type="xs:decimal"/>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

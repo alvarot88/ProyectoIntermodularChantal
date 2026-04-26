@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<exportacion_reservas sistema="GESTION_HOTELES" version="1.0">
+<exportacion_reservas sistema="GESTION_HOTELES" version="1.0"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:noNamespaceSchemaLocation="esquema.xsd">
   <metadatos>
     <fecha_exportacion>2026-04-26</fecha_exportacion>
     <total_reservas>5</total_reservas>
@@ -35,7 +37,7 @@
         <salida>2027-04-12</salida>
       </fechas>
       <precio moneda="EUR">
-        <total>980.0</total>
+        <total>980.00</total>
       </precio>
     </reserva>
     <reserva id="4">
