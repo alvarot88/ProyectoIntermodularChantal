@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class AppHotel extends Application {
 
-    private static final String APP_TITLE = "Sistema de Gestión Hotelera PROMETEO - Chantal v1.1";
+    private static final String APP_TITLE = "Sistema de Gestión Hotelera - Chantal v1.1";
 
     @Override
     public void start(Stage primaryStage) {
