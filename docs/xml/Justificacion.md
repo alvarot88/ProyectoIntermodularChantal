@@ -1,6 +1,6 @@
 # Modulo de intercambio de datos (XML/XSD) #
 
-En este directorio tienes la estructura documental para la exportación y validación de datos del sistema gestion_hoteles.
+En este directorio (/docs/xml/) tienes la estructura documental para la exportación y validación de datos del sistema gestion_hoteles.
 Se utiliza para que la información extraida de la bbdd cumpla con la calidad necesaria para ser procesada por aplicacionex externas o informes.
 
 ## **Contenido de la carpeta "xml"** ##
@@ -15,12 +15,12 @@ validacion_cap.pdf : contiene las capturas de la validación.
 
 El archivo XML representa un reporte de exportación del sistema con la siguiente jerarquía:
 
-1. **Metadatos**: Incluye el sistema de origen (`GESTION_HOTELES`), la versión del software, la fecha de exportación y el conteo total de registros.
+1. **Metadatos**: Incluye el sistema de origen (`gestion_hoteles`), la versión del software, la fecha de exportación y el conteo total de registros.
 2. **Listado de Reservas**: Cada bloque `<reserva>` detalla:
     * **Identificadores**: Atributo `id` único.
     * **Información del Huésped**: Nombre completo del cliente.
     * **Ubicación**: Nombre del hotel reservado.
-    * **Estancia**: Fechas de entrada y salida (formato ISO).
+    * **Estancia**: Fechas de entrada y salida.
     * **Finanzas**: Precio total de la estancia con el atributo de moneda (EUR).
 
 ## Reglas de Validación (XSD)
