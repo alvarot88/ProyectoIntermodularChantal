@@ -51,6 +51,12 @@ Para desplegar la aplicación desde cero, siga este orden:
 
 ### 7. Evidencias de Funcionamiento
 
+* **Uso de Recursos (Consola / Administrador de Tareas):**
+    * La aplicación ejecutándose sobre la Máquina Virtual de Java (JVM) tiene un consumo de memoria RAM inferior a 200 MB, lo que garantiza su correcto funcionamiento incluso en equipos con los 4 GB de hardware mínimo estipulados.
+
+
+* **Validación del Esquema de Datos:**
+    * Se han realizado pruebas de inserción y consulta en el entorno MySQL Workbench, verificando la integridad referencial de las tablas de `habitacion`, `hotel` y `reserva` sin presentar bloqueos de concurrencia.
 
 
 
