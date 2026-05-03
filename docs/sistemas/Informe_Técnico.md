@@ -36,25 +36,23 @@ Para asegurar la fluidez de la Máquina Virtual de Java (JVM) y el motor de base
 
 ### 4. Instalación del Entorno (Paso a Paso)
 
-Para desplegar la aplicación desde cero, siga este orden:
+Para ejecutar y probar la aplicación desde el entorno de desarrollo (IntelliJ IDEA), siga este orden:
 
-1. **Java Runtime Environment (JRE):** Instalar OpenJDK 17 o superior.
-2. **Servidor de Datos:** Instalar MySQL Server 8.0 con autenticación.
-3. **Base de Datos:** Importar el script SQL para crear la estructura de tablas (`gestion_hoteles.sql`).
-4. **Despliegue de App:** Copiar el archivo `gestion_hoteles.jar` en la ruta `C:\GestionHoteles\`.
-5. **Driver:** Asegurarse de que el conector `mysql-connector-j-x.x.x.jar` esté incluido en la carpeta `/lib`.
-
+1. **Requisito Previo:** Tener instalado **IntelliJ IDEA** (o su IDE de Java favorito) y OpenJDK 17 o superior.
+2. **Servidor de Datos:** Instalar y ejecutar **MySQL Server 8.0** con autenticación.
+3. **Base de Datos:** Importar el script SQL para crear la estructura de tablas y datos iniciales (`gestion_hoteles.sql`) usando MySQL Workbench.
+4. **Configuración del Proyecto:** Abrir el proyecto en el IDE y asegurarse de que el driver `mysql-connector-j-x.x.x.jar` esté añadido a las librerías o dependencias del proyecto.
+   Ejecutar la clase principal de la interfaz gráfica (`AppHotel.java` o la clase contenedora de la vista principal en JavaFX).
 ---
 
 ### 5. Usuarios, Permisos y Estructura
 
-* **Usuarios del Sistema:** Se recomienda un usuario de Windows estándar para los recepcionistas (sin permisos de instalación) y un usuario administrador para el mantenimiento.
-* **Permisos de BD:** La aplicación conecta mediante un usuario específico en MySQL que solo tiene permisos de lectura/escritura en la base de datos del hotel, no permisos de borrado de tablas.
+* **Usuarios del Sistema (SO):** Se recomienda utilizar un usuario de Windows estándar para los recepcionistas (restringiendo la instalación de software ajeno al sistema) y un usuario administrador para las labores de mantenimiento y despliegue.
+* **Permisos de Base de Datos:** La aplicación se conecta al servidor MySQL mediante un usuario técnico con privilegios restringidos (DML: `SELECT`, `INSERT`, `UPDATE`), protegiendo la integridad de la información al no disponer de permisos de borrado de esquemas o tablas (DDL: `DROP`).
 * **Estructura de Carpetas:**
-    * `/bin`: Archivos ejecutables.
-    * `/backups`: Copias de seguridad automáticas (se generan cada 24h).
-    * `/logs`: Archivos de registro de errores del sistema.
-
+    * `/bin`: Directorio contenedor del código fuente y ejecutables.
+    * `/backups`: Directorio de almacenamiento de copias de seguridad de la base de datos.
+    * `/logs`: Archivos de registro (*logs*) de la actividad de la máquina virtual de Java.
 ---
 
 ### 6. Mantenimiento y Seguridad Mínima
