@@ -1,6 +1,6 @@
 # 🏨 Sistema de Gestión Hotelera - Proyecto Intermodular
 
-> 🌐 **Portfolio Profesional:** [Enlace a Portfolio Básico](docs/itinerario-personal/Portfolio-prof.md)
+> 🌐 **Portfolio Profesional:** [Enlace a Portfolio ](docs/itinerario-personal/Portfolio-prof.md)
 
 ---
 
