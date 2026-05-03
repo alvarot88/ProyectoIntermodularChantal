@@ -15,7 +15,7 @@
 ![Interfaz de la Aplicación](docs/capturas/demo.gif/GestionClientes.gif)`
 
 * **Estructura de la Base de Datos:**
-![Diagrama EER](docs/bbdd/diagrams/diagrama_relacional_gestion_hoteles.mvb)`
+![Diagrama E/R](docs/bbdd/diagrams/gestion_hoteles.drawio.svg)`
 
 ---
 
