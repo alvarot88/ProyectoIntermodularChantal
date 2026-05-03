@@ -1,10 +1,10 @@
-# 🗄️ Base de Datos - Sistema de Gestión Hotelera
+#  Base de Datos - Sistema de Gestión Hotelera
 
 Este directorio contiene la documentación, el esquema relacional y los scripts necesarios para la creación y gestión de la base de datos del proyecto de Gestión de Hoteles.
 
 ---
 
-## 🛠️ Diseño y Modelo de Datos
+## Diseño y Modelo de Datos
 
 El diseño de la base de datos se ha estructurado utilizando un modelo relacional en **MySQL**, asegurando la integridad referencial y evitando la redundancia de datos.
 
@@ -22,7 +22,7 @@ El esquema central del sistema se compone de las siguientes tablas principales:
 
 ---
 
-## 📂 Estructura del Directorio
+## Estructura del Directorio
 
 ### `/schema/`
 Contiene la estructura (DDL) y los datos iniciales (DML) para levantar el sistema:
@@ -40,7 +40,7 @@ Contiene los scripts de consultas solicitadas en el ciclo:
 
 ---
 
-## 🚀 Decisiones de Diseño
+## Decisiones de Diseño
 
 1. **Integridad Referencial:** Uso de claves foráneas (`FOREIGN KEY`) entre `reserva_habitacion`, `reserva`, `habitacion` e `hotel` para garantizar que no existan registros huérfanos.
 2. **Tipado de Datos Eficiente:** Elección de tipos de datos adaptados al dominio (ej. `DECIMAL(18,2)` para los importes monetarios como el precio total, y `DATE` para los rangos de fechas).
