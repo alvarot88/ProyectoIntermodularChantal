@@ -11,12 +11,11 @@
 
 ## 2. Capturas del Sistema
 
-* **Interfaz de Usuario (JavaFX):**
-  *(Podés reemplazar esta ruta por la de tu archivo)*
-  `![Interfaz de la Aplicación](docs/capturas/Evidencia_RAM_SSII.png)`
+* **Interfaz de Usuario - Gestion de Clientes (JavaFX):**
+![Interfaz de la Aplicación](docs/capturas/demo.gif/GestionClientes.gif)`
 
 * **Estructura de la Base de Datos:**
-  `![Diagrama EER](base-de-datos/docs/diagrama_relacional_gestion_hoteles.png)`
+![Diagrama EER](docs/bbdd/diagrams/diagrama_relacional_gestion_hoteles.mvb)`
 
 ---
 
