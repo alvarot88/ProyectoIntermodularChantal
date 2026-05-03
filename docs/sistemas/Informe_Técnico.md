@@ -69,16 +69,16 @@ Para ejecutar y probar la aplicación desde el entorno de desarrollo (IntelliJ I
 * **Uso de Recursos (Consola / Administrador de Tareas):**
     * La aplicación ejecutándose sobre la Máquina Virtual de Java (JVM) tiene un consumo de memoria RAM inferior a 200 MB, lo que garantiza su correcto funcionamiento incluso en equipos con los 4 GB de hardware mínimo estipulados.
 
-![Rendimiento](docs/capturas/demo.git/Rendimiento.gif)
+![Rendimiento](docs/capturas/demo.gif/Rendimiento.gif)
 
 * **Validación del Esquema de Datos:**
     * Se han realizado pruebas de inserción y consulta en el entorno MySQL Workbench, verificando la integridad referencial de las tablas de `habitacion`, `hotel` y `reserva` sin presentar bloqueos de concurrencia.
 
-![Validación correcta del esquema de datos](docs/capturas/demo.git/exportacionxls.gif)
+![Validación correcta del esquema de datos](docs/capturas/demo.gif/exportacionxls.gif)
 
 ---
 
-### 💡 Esquema de Arquitectura del Sistema
+### Esquema de Arquitectura del Sistema
 
 ```text
  ┌──────────────────────┐

@@ -1,16 +1,16 @@
-# 🏨 Sistema de Gestión Hotelera - Proyecto Intermodular
+# Sistema de Gestión Hotelera - Proyecto Intermodular
 
-> 🌐 **Portfolio Profesional:** [Enlace a Portfolio ](docs/itinerario-personal/Portfolio-prof.md)
+> **Portfolio Profesional:** [Enlace a Portfolio ](docs/itinerario-personal/Portfolio-prof.md)
 
 ---
 
-## 📌 Descripción del Proyecto
+## Descripción del Proyecto
 
 El **Sistema de Gestión Hotelera** es un software integral de escritorio diseñado para resolver la ineficiencia, el uso de papel y los errores en el registro de reservas y clientes en el sector hotelero. Permite controlar la ocupación de habitaciones, gestionar huéspedes y mantener un flujo de trabajo seguro y rápido.
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 * **Java & JavaFX:** Motor lógico y desarrollo de la interfaz gráfica de usuario.
 * **MySQL & JDBC:** Capa de almacenamiento centralizado y control de transacciones mediante base de datos relacional.
@@ -19,40 +19,53 @@ El **Sistema de Gestión Hotelera** es un software integral de escritorio diseñ
 
 ---
 
-## 📂 Estructura y Contenidos del Repositorio
+## Estructura y Contenidos del Repositorio
 
 Para localizar cada archivo del proyecto, consulta el siguiente índice según la estructura de carpetas:
 
-### 1. Base de Datos (`/base-de-datos/`)
+### 1. Base de Datos (`/bbdd/`)
 Contiene los esquemas y consultas de la base de datos MySQL.
-* **`/schema/`**: Scripts de creación de tablas e inserción de datos iniciales.
-    * `gestion_hoteles_schema.sql`
+* **`/scripts/`**: Scripts de creación de tablas e inserción de datos iniciales.
+    * `create_gestion_hoteles_schema.sql`
     * `insert_clientes.sql`, `insert_habitaciones.sql`, `insert_hoteles.sql`
-* **`/querys/`**: Consultas solicitadas en el ciclo (ej. clientes por nacionalidad, reservas por hotel).
-* **`/docs/`**: Modelos, diagramas de relación (ficheros `.mwb` y `.png`).
+* **`/querys/`**: Consultas solicitadas (ej. clientes por nacionalidad, reservas por hotel).
+* **`/diagrams/`**: Modelos, diagramas de relación.
 
-### 2. Documentación ITP e Informe Técnico (`/docs/`)
-Contiene los entregables del itinerario profesional y de sistemas informáticos.
-* **`/itinerario-personal/`**: Exploración del sector, perfiles, reflexiones y portfolio.
-* **`/sistemas/`**: Informe Técnico de implantación y despliegue (`Informe_Tecnico.md`).
-* **`/capturas/`**: Evidencias visuales de rendimiento y uso de la JVM.
+### 2. Capturas y demos (`/capturas/`)
+Contiene videos y gif de demostración.
 
-### 3. Código Fuente (`/programacion/src/`)
-Contiene las clases del proyecto estructuradas por capas (Patrón DAO):
-* **`dao/`**: Conexión a base de datos y operaciones CRUD (`ClienteDAO`, `HotelDAO`, etc.).
-* **`model/`**: Clases de dominio (Entidades: `Cliente`, `Habitacion`, `Reserva`).
-* **`view/`**: Controladores de la interfaz gráfica en JavaFX (`AppHotel.java`, `PanelClientes.java`).
-* **`main/`**: Clase principal de arranque.
 
-### 4. Lenguajes de Marcas (`/xml/`)
+### 3. Itinerario Personal (`/itinerario-personal/`)
+Contiene los entregables de Itinerario Personal para la Empleabilidad I
+* **`Exploracion del sector profesional`**
+* **`Perfil Profesional`**
+* **`Portfolio profesional`**
+* **`Presentación del proyecto`**
+* **`Reflexión final`**
+
+
+### 4. Sistemas Informaticos (`/sistemas/`)
+* **`Informe técnico`**: Informe Técnico de implantación y despliegue (`Informe_Tecnico.md`).
+* **`Capturas`**: (`/docs/capturas`) :Capturas y videos de funcionamiento y rendimiento de la APP.
+* **`Esquema del sistema`**: Dentro del informe técnico.
+
+### 5. Lenguajes de Marcas (`/xml/`)
 Contiene los archivos relacionados con el módulo de lenguajes de marcas.
+* **`/capturas/`**: Contiene captura en video de la validación.
 * `esquema.xsd`
 * `reservas.xml`
 * `Justificacion.md`
 
+### 6. Programación (`/programacion/src/`)
+Contiene las clases del proyecto estructuradas por capas:
+* **`dao/`**: Conexión a base de datos y operaciones CRUD (`ClienteDAO`, `HotelDAO`, etc.).
+* **`model/`**: Clases de dominio (Entidades: `Cliente`, `Habitacion`, `Reserva`, etc.).
+* **`view/`**: Controladores de la interfaz gráfica en JavaFX (`AppHotel.java`, `PanelClientes.java`, etc.).
+* **`main/`**: No se utiliza ya que el arranque se realiza desde AppHotel.
+
 ---
 
-## 🚀 Mejoras de Mantenimiento y Rendimiento (MPO)
+## Mejoras de Mantenimiento y Rendimiento (MPO)
 
 1. **Modularidad en Capas:** Organización estricta del código en paquetes para facilitar el mantenimiento.
 2. **Validación de Errores:** Control de integridad mediante esquema XSD.
@@ -61,7 +74,7 @@ Contiene los archivos relacionados con el módulo de lenguajes de marcas.
 
 ---
 
-## ⚙️ Guía de Ejecución (Desde el IDE)
+## Guía de Ejecución (Desde el IDE)
 
 Para ejecutar el proyecto, siga estos pasos en su entorno de desarrollo:
 

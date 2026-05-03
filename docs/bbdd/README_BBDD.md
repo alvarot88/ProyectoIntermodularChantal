@@ -18,7 +18,7 @@ El esquema central del sistema se compone de las siguientes tablas principales:
 * `reserva`: Almacena el número de reserva, fechas y el cliente asociado.
 * `reserva_habitacion` *(Tabla intermedia)*: Resuelve la relación de muchos a muchos entre reservas y habitaciones, permitiendo registrar la cantidad de huéspedes y el `precio_total` de la estancia.
 
-! Diagrama Relacional (docs/bbdd/diagrams/gestion_hoteles_er.png)
+> **Nota:** Puedes encontrar el diagrama visual del modelo en el archivo (docs/bbdd/diagrams/gestion_hoteles_er.png)
 
 ---
 
